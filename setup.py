@@ -45,7 +45,7 @@ setup(
             'flake8>=4.0.0',
             'mypy>=0.900',
             'tox>=3.24.0',
-            'testcontainers>=4.8.0',
+            'testcontainers>=3.7.1',
         ],
         'docs': [
             'sphinx>=4.0.0',
