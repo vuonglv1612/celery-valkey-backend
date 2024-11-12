@@ -31,7 +31,7 @@ setup(
     ],
     package_dir={"": "celery_valkey_backend"},
     packages=find_packages(where="celery_valkey_backend"),
-    python_requires=">=3.7",
+    python_requires=">=3.8",
     install_requires=[
         "celery>=4.4.0",
         "valkey>=6.0.0",
@@ -46,6 +46,7 @@ setup(
             'mypy>=0.900',
             'tox>=3.24.0',
             'testcontainers>=3.7.1',
+            'redis>=5.2.0'
         ],
         'docs': [
             'sphinx>=4.0.0',

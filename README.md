@@ -4,7 +4,7 @@ A custom result backend for Celery using ValKey as the storage engine. This back
 
 ## Requirements
 
-- Python >= 3.7
+- Python >= 3.8
 - Celery >= 4.4.0
 - ValKey >= 6.0.0
 
