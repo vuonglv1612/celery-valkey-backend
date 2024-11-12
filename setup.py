@@ -33,7 +33,7 @@ setup(
     packages=find_packages(where="celery_valkey_backend"),
     python_requires=">=3.7",
     install_requires=[
-        "celery>=5.0.0",
+        "celery>=4.4.0",
         "valkey>=6.0.0",
     ],
     extras_require={
