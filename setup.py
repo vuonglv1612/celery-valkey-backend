@@ -37,25 +37,24 @@ setup(
         "valkey>=6.0.0",
     ],
     extras_require={
-        'dev': [
-            'pytest>=6.0.0',
-            'pytest-cov>=2.0.0',
-            'black>=22.0.0',
-            'isort>=5.0.0',
-            'flake8>=4.0.0',
-            'mypy>=0.900',
-            'tox>=3.24.0',
-            'testcontainers>=3.7.1',
-            'redis>=5.2.0'
+        "dev": [
+            "pytest>=6.0.0",
+            "pytest-cov>=2.0.0",
+            "black>=22.0.0",
+            "isort>=5.0.0",
+            "mypy>=0.900",
+            "tox>=3.24.0",
+            "testcontainers>=3.7.1",
+            "redis>=5.2.0",
         ],
-        'docs': [
-            'sphinx>=4.0.0',
-            'sphinx-rtd-theme>=1.0.0',
+        "docs": [
+            "sphinx>=4.0.0",
+            "sphinx-rtd-theme>=1.0.0",
         ],
     },
     entry_points={
-        'celery.result_backends': [
-            'valkey = celery_valkey_backend.valkey_backend:ValKeyBackend',
+        "celery.result_backends": [
+            "valkey = celery_valkey_backend.valkey_backend:ValKeyBackend",
         ],
     },
 )

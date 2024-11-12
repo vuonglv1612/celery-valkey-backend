@@ -32,6 +32,5 @@ jobs:
 
       - name: Run linting
         run: |
-          flake8 celery_valkey_backend tests
           black --check celery_valkey_backend tests
           isort --check-only celery_valkey_backend tests

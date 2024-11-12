@@ -43,18 +43,16 @@ def redis_uri() -> Generator[str, None, None]:
 
 def create_celery_app(redis_uri: str, valkey_uri: str) -> celery.Celery:
     """Create a Celery application with the given broker and backend URIs."""
-    app = celery.Celery('test_app',
-                        broker=redis_uri,
-                        backend=valkey_uri)
+    app = celery.Celery("test_app", broker=redis_uri, backend=valkey_uri)
     app.conf.broker_connection_retry = True
 
     app.conf.update(
-        task_serializer='json',
-        accept_content=['json'],
-        result_serializer='json',
-        timezone='UTC',
+        task_serializer="json",
+        accept_content=["json"],
+        result_serializer="json",
+        timezone="UTC",
         task_always_eager=False,  # Important: Don't run tasks eagerly
-        worker_prefetch_multiplier=1
+        worker_prefetch_multiplier=1,
     )
 
     @app.task
@@ -70,25 +68,20 @@ def create_celery_app(redis_uri: str, valkey_uri: str) -> celery.Celery:
 
 def run_worker(app) -> None:
     """Run the Celery worker process."""
-    worker = app.Worker(
-        loglevel='INFO',
-        concurrency=1,
-        pool='solo'
-    )
+    worker = app.Worker(loglevel="INFO", concurrency=1, pool="solo")
     worker.start()
 
 
 @pytest.fixture(scope="module")
-def celery_worker_and_app(redis_uri: str, valkey_uri: str) -> Generator[celery.Celery, None, None]:
+def celery_worker_and_app(
+    redis_uri: str, valkey_uri: str
+) -> Generator[celery.Celery, None, None]:
     """Start Celery worker in a separate process and return the Celery app."""
     # Create and configure the Celery app
     app = create_celery_app(redis_uri, valkey_uri)
 
     # Start the worker in a separate process
-    worker_process = multiprocessing.Process(
-        target=run_worker,
-        args=(app,)
-    )
+    worker_process = multiprocessing.Process(target=run_worker, args=(app,))
     worker_process.start()
 
     # Wait for worker to initialize

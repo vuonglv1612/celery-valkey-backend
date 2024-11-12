@@ -1,5 +1,6 @@
 from urllib.parse import urlparse, urlunparse
 
+
 def mask_url_password(url: str, mask: str = "***") -> str:
     """
     Masks the password in a ValKey URL.
@@ -26,15 +27,15 @@ def mask_url_password(url: str, mask: str = "***") -> str:
         parsed = urlparse(url)
 
         # If there's no authentication info, return original URL
-        if '@' not in parsed.netloc:
+        if "@" not in parsed.netloc:
             return url
 
         # Split the netloc into authentication and host parts
-        auth, host = parsed.netloc.split('@', 1)
+        auth, host = parsed.netloc.split("@", 1)
 
         # Split authentication into username and password
-        if ':' in auth:
-            username, _ = auth.split(':', 1)
+        if ":" in auth:
+            username, _ = auth.split(":", 1)
             # Reconstruct authentication with masked password
             masked_auth = f"{username}:{mask}"
         else:
@@ -51,6 +52,6 @@ def mask_url_password(url: str, mask: str = "***") -> str:
         # Return reconstructed URL
         return urlunparse(masked_components)
 
-    except Exception as e:
+    except Exception:
         # If any error occurs during parsing, return original URL
         return url

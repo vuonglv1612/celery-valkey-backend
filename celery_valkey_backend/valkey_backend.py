@@ -1,6 +1,7 @@
 """
 Celery backend implementation using ValKey as the storage engine.
 """
+
 import logging
 import time
 from datetime import timedelta
@@ -23,7 +24,7 @@ class ValKeyBackend(KeyValueStoreBackend):
     ValKey backend for Celery.
     """
 
-    scheme = 'valkey'  # URL scheme for the backend
+    scheme = "valkey"  # URL scheme for the backend
     supports_native_join = False
     supports_autoexpire = True
 
@@ -47,7 +48,7 @@ class ValKeyBackend(KeyValueStoreBackend):
 
         if Valkey is None:
             raise ImproperlyConfigured(
-                'You need to install valkey package to use the valkey backend.'
+                "You need to install valkey package to use the valkey backend."
             )
 
         if not url:
@@ -55,10 +56,16 @@ class ValKeyBackend(KeyValueStoreBackend):
 
         self.url = url
         self.expires = self.prepare_expires(expires)
-        self.connection_retry = kwargs.get('connection_retry', self.connection_retry)
-        self.connection_retry_backoff = kwargs.get('connection_retry_backoff', self.connection_retry_backoff)
-        self.connection_max_retries = kwargs.get('connection_max_retries', self.connection_max_retries)
-        self.connection_timeout = kwargs.get('connection_timeout', self.connection_timeout)
+        self.connection_retry = kwargs.get("connection_retry", self.connection_retry)
+        self.connection_retry_backoff = kwargs.get(
+            "connection_retry_backoff", self.connection_retry_backoff
+        )
+        self.connection_max_retries = kwargs.get(
+            "connection_max_retries", self.connection_max_retries
+        )
+        self.connection_timeout = kwargs.get(
+            "connection_timeout", self.connection_timeout
+        )
 
         # Client will be initialized on first use
         self._client = self._get_client()
@@ -103,8 +110,11 @@ class ValKeyBackend(KeyValueStoreBackend):
                 retries += 1
                 backoff = self.connection_retry_backoff * retries
                 logger.warning(
-                    'ValKey operation failed: %r. Retry %d/%d in %.2f seconds.',
-                    exc, retries, self.connection_max_retries, backoff,
+                    "ValKey operation failed: %r. Retry %d/%d in %.2f " "seconds.",
+                    exc,
+                    retries,
+                    self.connection_max_retries,
+                    backoff,
                 )
                 time.sleep(backoff)
                 self._client = None  # Force client recreation
@@ -118,7 +128,7 @@ class ValKeyBackend(KeyValueStoreBackend):
         Returns:
             The value associated with the key
         """
-        logger.debug('Getting key %s from ValKey', key)
+        logger.debug("Getting key %s from ValKey", key)
         return self._retry_on_error(self.client.get, key)
 
     def _set(self, key, value, expire=None):
@@ -134,7 +144,7 @@ class ValKeyBackend(KeyValueStoreBackend):
             key (str): Key to set
             value: Value to store
         """
-        logger.debug('Setting key %s in ValKey', key)
+        logger.debug("Setting key %s in ValKey", key)
         return self._retry_on_error(
             self._set,
             key,
